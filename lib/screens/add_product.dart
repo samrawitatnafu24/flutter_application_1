@@ -9,19 +9,19 @@ import '../data/market_store.dart'; // In-memory data store for products.
 import '../models/product.dart'; // Product data model.
 
 // StatefulWidget is necessary to manage text controllers and dropdown selection state.
-class AddProduct extends StatefulWidget {
+class AddProducts extends StatefulWidget {
   // Optional product passed in when editing an existing product.
   // If null, the screen operates in "Add Product" (create) mode.
   final Product? product;
 
   // Constructor accepting an optional product for edit mode.
-  const AddProduct({super.key, this.product});
+  const AddProducts({super.key, this.product});
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<AddProducts> createState() => _AddProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _AddProductState extends State<AddProducts> {
   // GlobalKey uniquely identifies the Form and allows form validation.
   final _formKey = GlobalKey<FormState>();
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/bloc/cart/cart_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/product/product_bloc.dart';
@@ -19,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   // Open Cart
   Future<void> _openCart() async {
     await Navigator.push(
@@ -28,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) => const CartPage(),
       ),
     );
+
+   
 
     setState(() {});
   }
@@ -56,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const AddProduct(),
+        builder: (context) => const AddProducts(),
       ),
     );
 
@@ -68,8 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final int itemCount = MarketStore.cartCount;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -93,7 +93,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
         actions: [
 
-          Badge(
+          BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+
+            print("==");
+            print("==");
+            print(state is CartLoaded);            print("==");
+            print(state);
+            print("==");
+            print("==");
+            if (state is CartLoaded) {
+              final itemCount = state.itemCount;
+
+              return Badge(
             isLabelVisible: itemCount > 0,
 
             label: Text(
@@ -116,9 +127,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
               onPressed: _openCart,
             ),
-          ),
+          );
+            }
 
-          const SizedBox(width: 8),
+            return Badge(
+
+
+            backgroundColor: const Color(0xFF2563EB),
+
+            alignment: const AlignmentDirectional(
+              18,
+              -4,
+            ),
+
+            child: IconButton(
+              icon: const Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.black,
+                size: 26,
+              ),
+
+              onPressed: _openCart,
+            ),
+          );
+          })
+
         ],
 
         bottom: const PreferredSize(

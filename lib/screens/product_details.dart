@@ -5,6 +5,8 @@
 // ============================================================================
 
 import 'package:flutter/material.dart'; // Flutter Material Design components.
+import 'package:flutter_application_1/bloc/cart/cart_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/categories.dart'; // Category helper functions for icons & colors.
 import '../data/market_store.dart'; // Centralized in-memory store.
 import '../models/product.dart'; // Product and CartItem data models.
@@ -51,7 +53,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddProduct(product: product),
+        builder: (context) => AddProducts(product: product),
       ),
     );
     // After returning from the edit screen, rebuild to display updated product details.
@@ -93,8 +95,8 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   // Adds the current product and chosen quantity to the shopping cart.
   void _addToCart(Product product) {
-    // Add item to MarketStore cart.
-    MarketStore.addToCart(product, _quantity);
+    
+    context.read<CartBloc>().add(AddToCart(product, _quantity));
 
     // Show a brief confirmation snackbar notification at the bottom.
     ScaffoldMessenger.of(context).showSnackBar(
@@ -104,6 +106,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: const Color(0xFF2563EB),
       ),
     );
+
 
     // Return to the home screen after adding.
     Navigator.pop(context);

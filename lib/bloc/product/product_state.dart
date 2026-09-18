@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/models/product.dart';
+
 abstract class ProductState {}
 
 class ProductInitial extends ProductState {}
@@ -5,7 +7,7 @@ class ProductInitial extends ProductState {}
 class ProductLoading extends ProductState {}
 
 class ProductLoaded extends ProductState {
-  final List<String> products;
+  final List<Product> products;
 
   ProductLoaded(this.products);
 }

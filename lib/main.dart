@@ -5,6 +5,9 @@
 // ============================================================================
 
 import 'package:flutter/material.dart'; // Core Flutter UI toolkit.
+import 'package:flutter_application_1/bloc/cart/cart_bloc.dart';
+import 'package:flutter_application_1/bloc/product/product_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'data/market_store.dart'; // Centralized in-memory store for products & cart.
 import 'screens/add_product.dart'; // Screen to add or edit products.
 import 'screens/cart_page.dart'; // Screen displaying items in the shopping cart.
@@ -29,7 +32,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // MaterialApp configures global theme, navigation, and title for the app.
-    return MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProductBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CartBloc(),
+        ),
+      ],
+      child: MaterialApp(
       title: 'Mini Market', // Application name reported to the operating system.
       debugShowCheckedModeBanner: false, // Hides the 'DEBUG' banner in development mode.
       theme: ThemeData(
@@ -45,6 +57,7 @@ class MyApp extends StatelessWidget {
       ),
       // Set HomePage as the initial screen displayed when the app launches.
       home: const HomePage(),
+    ),
     );
   }
 }
@@ -96,7 +109,7 @@ class _HomePageState extends State<HomePage> {
     // Push the AddProduct screen route.
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const AddProduct()),
+      MaterialPageRoute(builder: (context) => const AddProducts()),
     );
     // Refresh the catalog grid when a new product is added.
     setState(() {});

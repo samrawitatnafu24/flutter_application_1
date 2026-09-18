@@ -1,28 +1,34 @@
+import 'package:flutter_application_1/data/market_store.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'cart_event.dart';
-import 'cart_state.dart';
+import 'package:flutter_application_1/models/product.dart';
+
+part 'cart_event.dart';
+part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final List<String> _cartItems = [];
+
 
   CartBloc() : super(CartInitial()) {
     
     // Add to cart
     on<AddToCart>((event, emit) {
-      _cartItems.add(event.productId);
-      emit(CartLoaded(List.from(_cartItems)));
+      MarketStore.addToCart(event.product, event.quantity);
+
+      emit(CartLoaded(List.from(MarketStore.cart)));
     });
 
     // Remove from cart
     on<RemoveFromCart>((event, emit) {
-      _cartItems.remove(event.productId);
-      emit(CartLoaded(List.from(_cartItems)));
+      MarketStore.removeFromCart(event.productId);
+     
+      emit(CartLoaded(List.from(MarketStore.cart)));
     });
 
     // Clear cart
     on<ClearCart>((event, emit) {
-      _cartItems.clear();
-      emit(CartLoaded(List.from(_cartItems)));
+      MarketStore.clearCart();
+      
+      emit(CartLoaded(List.from(MarketStore.cart)));
     });
   }
 }
